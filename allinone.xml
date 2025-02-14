@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<xml>
+
+<!--####Install#### -->
+<plugins cont="Install">
+
+<plugin name="Oscam-emu-levi45_11868-802_all.ipk">		<url>https://gitlab.com/eliesat/scripts/-/raw/main/all/_update-dependencies.sh</url> </plugin>
+
+</plugins>
+<!--####Dns#### -->
+<plugins cont="Dns">
+
+<plugin name="Oscam-emu-levi45_11868-802_all.ipk">		<url>https://raw.githubusercontent.com/levi-45/Multicam/main/Cams_ipk/All/enigma2-plugin-softcams-oscam-emu-levi45_11868-802_all.ipk</url> </plugin>
+
+</plugins>
+<!--####Fix#### -->
+<plugins cont="Fix">
+
+<plugin name="Oscam-emu-levi45_11868-802_all.ipk">		<url>https://raw.githubusercontent.com/levi-45/Multicam/main/Cams_ipk/All/enigma2-plugin-softcams-oscam-emu-levi45_11868-802_all.ipk</url> </plugin>
+
+</plugins>
+<!--####Hdd#### -->
+<plugins cont="Hdd">
+
+<plugin name="Oscam-emu-levi45_11868-802_all.ipk">		<url>https://raw.githubusercontent.com/levi-45/Multicam/main/Cams_ipk/All/enigma2-plugin-softcams-oscam-emu-levi45_11868-802_all.ipk</url> </plugin>
+
+</plugins>
+<!--####Remove#### -->
+<plugins cont="Remove">
+
+<plugin name="Oscam-emu-levi45_11868-802_all.ipk">		<url>https://raw.githubusercontent.com/levi-45/Multicam/main/Cams_ipk/All/enigma2-plugin-softcams-oscam-emu-levi45_11868-802_all.ipk</url> </plugin>
+
+</plugins>
+<!--####Show me#### -->
+<plugins cont="Show me">
+
+<plugin name="Oscam-emu-levi45_11868-802_all.ipk">		<url>https://raw.githubusercontent.com/levi-45/Multicam/main/Cams_ipk/All/enigma2-plugin-softcams-oscam-emu-levi45_11868-802_all.ipk</url> </plugin>
+
+</plugins>
+
+</xml>
