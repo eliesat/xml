@@ -110,8 +110,8 @@ if [ $extract -eq 0 ]; then
     mkdir -p /usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel
     create=$?
     if [ $create -eq 0 ]; then
-    mv /tmp/eliesatpanel-main/* /usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/ >/dev/null 2>&1
-    rm -rf /tmp/eliesatpanel-main >/dev/null 2>&1
+    mv /tmp/xml-main/* /usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/ >/dev/null 2>&1
+    rm -rf /tmp/xml-main >/dev/null 2>&1
     fi
 print_message "> Eliesatpanel is installed successfully and up to date ..."
 echo
