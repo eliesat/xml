@@ -104,7 +104,7 @@ class cccam3(Screen, ConfigListScreen):
 
         for path in config_file[extension]:
             if extension == ".cfg":
-                    sus = f"{line['label']} {line['url']} {line['port']} {line['user']} {line['passw']}\n"
+                    sus = f"{line['label']} {line['protocol']}  {line['url']} {line['port']} {line['user']} {line['passw']}\n"
             with open(path, "a") as f:
                 f.write(sus)
 
