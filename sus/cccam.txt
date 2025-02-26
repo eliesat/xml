@@ -1,6 +1,2 @@
 
-tv8k.cc 22222 server-eagle server-eagle
-tv8k.cc 22222 server-eagle server-eagle
-ElieSat tv8k.cc 22222 server-eagle server-eagle
-ElieSat tv8k.cc 22222 server-eagle server-eagle
-ElieSat tv8k.cc 22222 server-eagle server-eagle
+

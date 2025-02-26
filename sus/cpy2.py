@@ -4,17 +4,17 @@ from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 from Components.ActionMap import ActionMap
 from Components.ConfigList import ConfigListScreen
-from Components.config import ConfigText, ConfigInteger, getConfigListEntry
+from Components.config import ConfigText, ConfigSelection, getConfigListEntry
 from Components.Console import Console
 from Plugins.Plugin import PluginDescriptor
 from Plugins.Extensions.ElieSatPanel.menus.Console import Console
 class cccam2(Screen, ConfigListScreen):
     skin = """
-<screen name="iptv" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder" title="iptvadder">
+<screen name="cccam" position="0,0" size="1920,1080" backgroundColor="transparent" flags="wfNoBorder" title="cccamadder">
 <ePixmap position="0,0" zPosition="-1" size="1920,1080" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/images/bglist.png"/>
 <widget name="config" position="48,200" size="1240,660" font="Regular;35" halign="center" valign="center" render="Listbox" itemHeight="66" selectionPixmap="/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/images/selection.png" transparent="1" scrollbarMode="showOnDemand" />
 
-<eLabel text="Iptv user adder" position="460,120" size="400,50" zPosition="1" font="Regular;39" halign="left" backgroundColor="background" foregroundColor="foreground" transparent="1" />
+<eLabel text="Cccam user adder" position="460,120" size="400,50" zPosition="1" font="Regular;39" halign="left" backgroundColor="background" foregroundColor="foreground" transparent="1" />
 <ePixmap position="370,125" size="180,47" zPosition="1" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/images/2.png" alphatest="blend" />
 <ePixmap position="780,125" size="180,47" zPosition="1" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/images/2.png" alphatest="blend" />
 <!-- title2 -->
@@ -57,13 +57,21 @@ class cccam2(Screen, ConfigListScreen):
             "yellow": self.save,
             "blue": self.check
         }, -2)
+        self.protocol = ConfigSelection(choices=[
+            ("cccam", "Cccam"), 
+            ("newcamd", "NewCamd"), 
+            ("mgcamd", "MgCamd"), 
+        ])
 
-        self.url = ConfigText(default="http://eliesatpanel.com", fixed_size=False)
-        self.port = ConfigText(default="8080", fixed_size=False)
-        self.user = ConfigText(default="username", fixed_size=False)
-        self.passw = ConfigText(default="password", fixed_size=False)
+        self.label = ConfigText(default="ElieSat", fixed_size=False)
+        self.url = ConfigText(default="tv8k.cc", fixed_size=False)
+        self.port = ConfigText(default="22222", fixed_size=False)
+        self.user = ConfigText(default="server-eagle", fixed_size=False)
+        self.passw = ConfigText(default="server-eagle", fixed_size=False)
 
         ConfigListScreen.__init__(self, [
+            getConfigListEntry("LABEL :", self.label),
+            getConfigListEntry("PROTOCOL :", self.protocol),
             getConfigListEntry("URL :", self.url),
             getConfigListEntry("PORT :", self.port),
             getConfigListEntry("USERNAME :", self.user),
@@ -75,32 +83,34 @@ class cccam2(Screen, ConfigListScreen):
 
     def send(self):
      cmd1 = ". /usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/sus/cccam.sh"
-     self.session.open(Console, _("Writing your iptv suscription, please wait"), cmdlist=[cmd1])
+     self.session.open(Console, _("Writing your sharing suscription, please wait"), cmdlist=[cmd1])
 
     def save(self):
         line = {
+            "label": self.label.value,
+            "protocol": self.protocol.value,
             "url": self.url.value,
             "port": self.port.value,
             "user": self.user.value,
             "passw": self.passw.value
         }
-        self.writeConfigFile(line, ".m3u")
-        self.session.open(MessageBox, "Iptv new user is saved successfully, press the green button to add in playlists", MessageBox.TYPE_INFO, timeout=10)
+        self.writeConfigFile(line, ".cfg")
+        self.session.open(MessageBox, "Sharing new user is saved successfully, press the green button to add in installed emus", MessageBox.TYPE_INFO, timeout=10)
     def writeConfigFile(self, line, extension):
         config_file = {
-            ".m3u": [
-                "/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/sus/iptv.txt",
+            ".cfg": [
+                "/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/sus/cccam.txt",
             ],
         }
 
         for path in config_file[extension]:
-            if extension == ".m3u":
-                    sus = "{url} {port} {user} {passw}\n".format(**line)
+            if extension == ".cfg":
+                    sus = "{label} {protocol} {url} {port} {user} {passw}\n".format(**line)
             with open(path, "a") as f:
                 f.write(sus)
 
-
     def check(self):
         self.close()
+
     def exit(self):
         self.close()

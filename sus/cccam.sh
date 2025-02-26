@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# Check for mounted storage
+if [ ! -d /etc/tuxbox/config ]; then
+echo "Install an emu 1st,and try again"
+exit 1
+fi
+
 ###########################################
 dir="/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/sus/cccam.txt"
 if [ ! -s "$dir" ]; then
@@ -54,7 +58,7 @@ for cam_config_file in oscam ncam
 do
 
 if [ -f /etc/tuxbox/config/$cam_config_file.server ]; then
-   echo "> $cam_config_file emu found"
+   echo "> $cam_config_file emu config file found"
 sleep 1
 fi
 
@@ -101,7 +105,7 @@ audisabled                    = 1
 
 EOF
 
-   echo "> cccam server installed in $cam_config_file successfully"
+   echo "> cccam server installed in $cam_config_file config file successfully"
 sleep 3
 fi
 done
