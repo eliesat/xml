@@ -2,7 +2,7 @@
 
 # Check for mounted storage
 ###########################################
-dir="/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/sus/iptv.txt"
+dir="/usr/lib/enigma2/python/Plugins/Extensions/ElieSatPanel/sus/cccam.txt"
 if [ ! -s "$dir" ]; then
 echo "> url= None"
 echo "> port= None"
@@ -17,7 +17,7 @@ fi
 # Check for cmd cccam file
 ###########################################
 if [ -f $dir ]; then 
-echo "> cmd file found"
+cmdfile=found
 sleep 1
 else
 echo "> cmd file not found"
@@ -25,34 +25,69 @@ sleep 1
 exit 1 
 fi
 
-# determine cccam line data
+# determine cccam data
 ###########################################
 
-label=$(grep 'label' $dir | cut -d= -f2)
-url=$(grep 'url' $dir | cut -d= -f2)
-port=$(grep 'port' $dir | cut -d= -f2)
-username=$(grep 'username' $dir | cut -d= -f2)
-password=$(grep 'password' $dir | cut -d= -f2)
+label=$(more $dir | tail -n 1 |awk '{print $1}')
+echo "> label= $label"
+sleep 1
+protocol=$(more $dir | tail -n 1 |awk '{print $2}')
+echo "> protocol= $protocol"
+sleep 1
+url=$(more $dir | tail -n 1 |awk '{print $3}')
+echo "> url= $url"
+sleep 1
+port=$(more $dir | tail -n 1 |awk '{print $4}')
+echo "> port= $port"
+sleep 1
+username=$(more $dir | tail -n 1 |awk '{print $5}')
+echo "> username= $username"
+sleep 1
+password=$(more $dir | tail -n 1 |awk '{print $6}')
+echo "> password= $password"
+sleep 1
+echo
 
 # write cccam line data in emus
 ###########################################
-
 for cam_config_file in oscam ncam
 do
 
-if ! grep -q $username /etc/tuxbox/config/$cam_config_file.server >/dev/null 2>&1; then
-
-   if [ ! -f /etc/tuxbox/config/$cam_config_file.server ]; then
-   echo "> $cam_config_file emu not found"
-   sleep 3
-   else
+if [ -f /etc/tuxbox/config/$cam_config_file.server ]; then
    echo "> $cam_config_file emu found"
-   sleep 3
+sleep 1
+fi
+
+if ! grep -q $protocol /etc/tuxbox/config/$cam_config_file.server >/dev/null 2>&1; then
+:
+else
+prt=true
+sleep 1
+fi
+
+if ! grep -q $username /etc/tuxbox/config/$cam_config_file.server >/dev/null 2>&1; then
+:
+else
+ut=true
+sleep 1
+fi
+
+if ! grep -q $password /etc/tuxbox/config/$cam_config_file.server >/dev/null 2>&1; then
+:
+else
+pt=true
+sleep 1
+fi
+
+if [[ "$pt" == "true" ]] && [[ "$ut" == "true" ]] && [[ "$prt" == "true" ]]; then
+echo "> Your line already exist in $cam_config_file"
+sleep 1
+else
 cat <<EOF >> /etc/tuxbox/config/$cam_config_file.server
-   
+
 [reader]
 label                         = $label
-protocol                      = cccam
+protocol                      = $protocol
 device                        = $url,$port
 user                          = $username
 password                      = $password
@@ -67,11 +102,6 @@ audisabled                    = 1
 EOF
 
    echo "> cccam server installed in $cam_config_file successfully"
-sleep 3
-   fi
-
-else
-echo "> cccam server already exist in $cam_config_file"
 sleep 3
 fi
 done
